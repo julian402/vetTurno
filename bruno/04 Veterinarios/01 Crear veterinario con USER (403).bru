@@ -1,0 +1,30 @@
+meta {
+  name: Crear veterinario con USER (403)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/veterinarios
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{tokenUser}}
+}
+
+body:json {
+  {
+    "nombre": "Andrés Gómez",
+    "especialidad": "Medicina general"
+  }
+}
+
+assert {
+  res.status: eq 403
+}
+
+docs {
+  Matriz #6: POST /api/veterinarios con USER -> 403 Forbidden.
+}

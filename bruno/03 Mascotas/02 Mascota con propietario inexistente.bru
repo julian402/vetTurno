@@ -1,0 +1,33 @@
+meta {
+  name: Mascota con propietario inexistente
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/mascotas
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "nombre": "Fantasma",
+    "especie": "Gato",
+    "raza": "Siamés",
+    "propietarioId": 99999
+  }
+}
+
+assert {
+  res.status: eq 400
+}
+
+docs {
+  Matriz #10: propietario inexistente -> 400 controlado; no se inserta fila.
+  (Responde 400 una vez exista el GlobalExceptionHandler de la Parte 6.)
+}

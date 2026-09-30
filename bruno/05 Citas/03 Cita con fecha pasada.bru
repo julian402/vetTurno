@@ -1,0 +1,32 @@
+meta {
+  name: Cita con fecha pasada
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/citas
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "fechaHora": "2024-01-15T10:00:00",
+    "motivo": "Control",
+    "mascotaId": {{mascotaId}},
+    "veterinarioId": {{veterinarioId}}
+  }
+}
+
+assert {
+  res.status: eq 400
+}
+
+docs {
+  Matriz #12: cita con fecha pasada -> 400 con mensaje claro.
+}

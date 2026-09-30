@@ -31,3 +31,26 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Configuración local y secretos ###
+.env
+.env.*
+*.env
+application-local.properties
+src/main/resources/application-local.properties
+
+### Bruno ###
+bruno/.env
+
+### Logs ###
+*.log
+logs/
+
+### Sistema operativo ###
+.DS_Store
+Thumbs.db
+desktop.ini
+
+### Asistentes de IA ###
+.claude/
+CLAUDE.md

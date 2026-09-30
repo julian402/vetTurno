@@ -1,0 +1,20 @@
+meta {
+  name: Listar mascotas
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/mascotas
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+assert {
+  res.status: eq 200
+  res.body: isArray
+}

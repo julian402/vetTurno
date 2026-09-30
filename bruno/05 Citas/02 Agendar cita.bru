@@ -1,0 +1,45 @@
+meta {
+  name: Agendar cita
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/citas
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "fechaHora": "{{fechaCita}}",
+    "motivo": "Vacunación anual",
+    "mascotaId": {{mascotaId}},
+    "veterinarioId": {{veterinarioId}}
+  }
+}
+
+script:pre-request {
+  // Fecha futura aleatoria (entre 30 y 330 días, a una hora en punto entre 8 y 17)
+  const d = new Date();
+  d.setDate(d.getDate() + 30 + Math.floor(Math.random() * 300));
+  const pad = (n) => String(n).padStart(2, "0");
+  const hora = 8 + Math.floor(Math.random() * 10);
+  const fecha = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(hora)}:00:00`;
+  bru.setEnvVar("fechaCita", fecha);
+}
+
+assert {
+  res.status: eq 201
+  res.body.mascota: isString
+  res.body.veterinario: isString
+}
+
+docs {
+  Matriz #11: cita futura con referencias válidas -> 201 y cita persistida.
+  La fecha se genera sola y se guarda en {{fechaCita}} para la prueba de duplicado.
+}

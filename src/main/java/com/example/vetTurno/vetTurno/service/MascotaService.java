@@ -1,5 +1,6 @@
 package com.example.vetTurno.vetTurno.service;
 
+import com.example.vetTurno.vetTurno.exception.ReglaNegocioException;
 import com.example.vetTurno.vetTurno.dto.MascotaDTO;
 import com.example.vetTurno.vetTurno.dto.MascotaRequest;
 import com.example.vetTurno.vetTurno.model.Mascota;
@@ -31,7 +32,7 @@ public class MascotaService {
 
     public MascotaDTO crearMascota(MascotaRequest req) {
         Propietario propietario = propietarioRepository.findById(req.getPropietarioId())
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new ReglaNegocioException(
                         "No existe un propietario con id " + req.getPropietarioId()));
 
         Mascota mascota = new Mascota(req.getNombre(), req.getEspecie(), req.getRaza(), propietario);

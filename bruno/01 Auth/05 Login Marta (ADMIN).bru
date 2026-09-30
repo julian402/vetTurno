@@ -1,0 +1,33 @@
+meta {
+  name: Login Marta (ADMIN)
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "marta@huellitas.com",
+    "password": "marta123"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.token: isString
+}
+
+script:post-response {
+  if (res.status === 200) {
+    bru.setEnvVar("tokenAdmin", res.body.token);
+  }
+}
+
+docs {
+  Ejecutar DESPUÉS del UPDATE a ADMIN en la base, para que el token lleve el rol nuevo.
+}

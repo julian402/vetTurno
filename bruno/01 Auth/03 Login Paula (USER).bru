@@ -1,0 +1,34 @@
+meta {
+  name: Login Paula (USER)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "paula@huellitas.com",
+    "password": "paula123"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.token: isString
+}
+
+script:post-response {
+  if (res.status === 200) {
+    bru.setEnvVar("tokenUser", res.body.token);
+    bru.setEnvVar("token", res.body.token);
+  }
+}
+
+docs {
+  Matriz #4: login válido -> 200 y JWT vigente.
+}

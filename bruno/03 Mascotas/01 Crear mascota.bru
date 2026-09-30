@@ -1,0 +1,39 @@
+meta {
+  name: Crear mascota
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/mascotas
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "nombre": "Firulais",
+    "especie": "Perro",
+    "raza": "Criollo",
+    "propietarioId": {{propietarioId}}
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.propietarioNombre: isString
+}
+
+script:post-response {
+  if (res.status === 201) {
+    bru.setEnvVar("mascotaId", res.body.id);
+  }
+}
+
+docs {
+  Matriz #9: mascota con propietario existente -> 201 y relación correcta.
+}

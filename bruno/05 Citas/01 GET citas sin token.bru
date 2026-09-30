@@ -1,0 +1,19 @@
+meta {
+  name: GET citas sin token
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/citas
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 401
+}
+
+docs {
+  Matriz #5: GET /api/citas sin token -> acceso rechazado (401).
+}

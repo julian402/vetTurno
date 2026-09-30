@@ -1,0 +1,34 @@
+meta {
+  name: Cita duplicada (mismo veterinario y horario)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/citas
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "fechaHora": "{{fechaCita}}",
+    "motivo": "Consulta general",
+    "mascotaId": {{mascotaId}},
+    "veterinarioId": {{veterinarioId}}
+  }
+}
+
+assert {
+  res.status: eq 400
+}
+
+docs {
+  Matriz #13: segundo intento con mismo veterinario y horario -> 400; se conserva una sola cita.
+  Ejecutar después de "Agendar cita" (usa la misma {{fechaCita}}).
+  (Responde 400 una vez exista el GlobalExceptionHandler de la Parte 6.)
+}
